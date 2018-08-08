@@ -51,6 +51,7 @@ mraa::Gpio *GPIO;
 #endif
 
 //===Header and Fuction for Artik==============
+#ifdef ARTIK
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -115,6 +116,7 @@ int setup() {
      return -1;
    return 0;
 }
+#endif
 //=============================================
 
 typedef struct
@@ -344,7 +346,9 @@ ProcessPostRequest(OCEntityHandlerRequest *ehRequest,
         GPIO->write(value);
         #endif
         //==Control artik light============================
+        #ifdef ARTIK
         digitalWrite(outputPin, value);
+        #endif
         //=================================================
 
     }
@@ -551,6 +555,7 @@ main(void)
     #endif
 
     //=enabling GPIO and checking and testing on ARTIK==========================
+    #ifdef ARTIK
     if (setup() == -1)
       {
         exit(1);
@@ -560,7 +565,8 @@ main(void)
     sleep(1);
     digitalWrite(outputPin, LOW);
     sleep(1);
-    //==============================================================
+    #endif
+    //===========================================================================
 
     OIC_LOG_V(DEBUG, TAG, "[%s] Initializing and registering persistent"
               "storage",
